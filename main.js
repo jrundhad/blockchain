@@ -60,7 +60,7 @@ jeetycoin.addBlock(new Block(2,"14/9/21",{amount: 40}));
 console.log("Is Block Chain Valid: "+jeetycoin.verifyChain());
 console.log(JSON.stringify(jeetycoin, null, 4));
 
-//tampering blokc chanin and checking validity 
+//tampering block chanin and checking validity 
 jeetycoin.chain[1].data = {amount:40};
 jeetycoin.chain[1].hash = jeetycoin.chain[1].calculateHash;
 console.log("Is Block Chain Valid: "+jeetycoin.verifyChain());
