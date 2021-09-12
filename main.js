@@ -18,10 +18,10 @@ class Block{
 
 class BlockChain{
     constructor(){
-        this.chain = [this.crateGenesisBlock()] ;
+        this.chain = [this.createGenesisBlock()] ;
     }
 
-    crateGenesisBlock(){
+    createGenesisBlock(){
         return new Block(0, "13/9/21", "Genesis Block", "0");
     }
 
