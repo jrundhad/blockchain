@@ -51,10 +51,16 @@ class BlockChain{
         return true;
     }
 }
-
+// testing block chain
 let jeetycoin = new BlockChain;
 jeetycoin.addBlock(new Block(1,"13/9/21",{amount: 4}));
 jeetycoin.addBlock(new Block(2,"14/9/21",{amount: 40}));
 
+// printing block chain
 console.log("Is Block Chain Valid: "+jeetycoin.verifyChain());
 console.log(JSON.stringify(jeetycoin, null, 4));
+
+//tampering blokc chanin and checking validity 
+jeetycoin.chain[1].data = {amount:40};
+jeetycoin.chain[1].hash = jeetycoin.chain[1].calculateHash;
+console.log("Is Block Chain Valid: "+jeetycoin.verifyChain());
