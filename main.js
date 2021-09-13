@@ -7,18 +7,27 @@ class Block{
         this.data = data;
         this.previoushash = previoushash;
         this.hash = this.calculateHash();
+        this.nonce = 0;
     }
 
     calculateHash(){
-        return SHA256(this.index + this.previoushash + this.timestamp + JSON.stringify(this.data)).toString();
+        return SHA256(this.index + this.previoushash + this.timestamp + JSON.stringify(this.data)+ this.nonce).toString();
     }
-
+    
+    mineBlock(difficulty){
+        while(this.hash.substring(0, difficulty) !== Array(difficulty+1).join("0")){
+            this.nonce = this.nonce + 1;
+            this.hash = this.calculateHash();
+        }
+        console.log("Block has been mined the hash is:" +  this.hash)
+    }
 
 }
 
 class BlockChain{
     constructor(){
         this.chain = [this.createGenesisBlock()] ;
+        this.difficulty = 6;
     }
 
     createGenesisBlock(){
@@ -31,7 +40,7 @@ class BlockChain{
 
     addBlock( newBlock){
         newBlock.previoushash = this.getLatestBlock().hash;
-        newBlock.hash = newBlock.calculateHash();
+        newBlock.mineBlock(this.difficulty);
         this.chain.push(newBlock);
     }
 
@@ -53,12 +62,14 @@ class BlockChain{
 }
 // testing block chain
 let jeetycoin = new BlockChain;
-jeetycoin.addBlock(new Block(1,"13/9/21",{amount: 4}));
+console.log("mining block 1")
+jeetycoin.addBlock(new Block(1,"13/9/21",{amount: 400}));
+console.log("mining block 2 ")
 jeetycoin.addBlock(new Block(2,"14/9/21",{amount: 40}));
 
 // printing block chain
-console.log("Is Block Chain Valid: "+jeetycoin.verifyChain());
-console.log(JSON.stringify(jeetycoin, null, 4));
+//console.log("Is Block Chain Valid: "+jeetycoin.verifyChain());
+//console.log(JSON.stringify(jeetycoin, null, 4));
 
 //tampering block chanin and checking validity 
 jeetycoin.chain[1].data = {amount:40};
