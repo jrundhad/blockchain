@@ -1,10 +1,19 @@
 const SHA256 = require('crypto-js/sha256');
 
+class transactions {
+    constructor(fromAddress, toAddress, amount){
+        this.fromAddress = fromAddress;
+        this.toAddress = toAddress;
+        this.amount = amount;
+    }
+}
+
+
+
 class Block{
-    constructor(index, timestamp, data, previoushash = ''){
-        this.index = index;
+    constructor(timestamp, transactions, previoushash = ''){
         this.timestamp = timestamp;
-        this.data = data;
+        this.data = transactions;
         this.previoushash = previoushash;
         this.hash = this.calculateHash();
         this.nonce = 0;
@@ -28,14 +37,21 @@ class BlockChain{
     constructor(){
         this.chain = [this.createGenesisBlock()] ;
         this.difficulty = 4;
-    }
+        this.pendingTransactions = [];
+        this.miningReward = 100;
+        }
 
     createGenesisBlock(){
-        return new Block(0, "13/9/21", "Genesis Block", "0");
+        return new Block( "13/9/21", "Genesis Block", "0");
     }
 
     getLatestBlock(){
         return this.chain[this.chain.length -1];
+    }
+
+    minePendingtransactions(miningRewardAdrress){
+        
+
     }
 
     addBlock( newBlock){
@@ -62,16 +78,3 @@ class BlockChain{
 }
 // testing block chain
 let jeetycoin = new BlockChain;
-console.log("mining block 1")
-jeetycoin.addBlock(new Block(1,"13/9/21",{amount: 400}));
-console.log("mining block 2 ")
-jeetycoin.addBlock(new Block(2,"14/9/21",{amount: 40}));
-
-// printing block chain
-//console.log("Is Block Chain Valid: "+jeetycoin.verifyChain());
-//console.log(JSON.stringify(jeetycoin, null, 4));
-
-//tampering block chanin and checking validity 
-//jeetycoin.chain[1].data = {amount:40};
-//jeetycoin.chain[1].hash = jeetycoin.chain[1].calculateHash;
-console.log("Is Block Chain Valid: "+jeetycoin.verifyChain());
